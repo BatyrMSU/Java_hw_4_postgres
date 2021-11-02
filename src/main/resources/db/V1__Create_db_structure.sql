@@ -47,7 +47,12 @@ CREATE TABLE schedule
     CONSTRAINT  schedule_pk PRIMARY KEY (course_id, lesson)
 );
 
-
-
-
+CREATE TABLE lessons_reviews
+(
+    student_id  INT NOT NULL REFERENCES students (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    course_id   INT NOT NULL REFERENCES courses (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    lesson      INT NOT NULL,
+    review      TEXT,
+    CONSTRAINT  lessons_reviews_pk PRIMARY KEY (student_id, course_id, lesson)
+);
 
