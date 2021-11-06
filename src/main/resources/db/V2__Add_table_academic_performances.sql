@@ -1,9 +1,14 @@
-CREATE TABLE academic_performances
+CREATE TABLE students_performances
 (
-    course_id   INT NOT NULL REFERENCES courses (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    lesson      INT NOT NULL CHECK (lesson >= 0),
+    lesson_id   INT NOT NULL REFERENCES schedule (lesson_id)  ON UPDATE CASCADE ON DELETE CASCADE,
     student_id  INT NOT NULL REFERENCES students (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    attendance  BOOL DEFAULT false,
     grade       INT CHECK (grade >= 0),
-    CONSTRAINT academic_performances_pk PRIMARY KEY (course_id, lesson, student_id)
+    CONSTRAINT students_performances_pk PRIMARY KEY (lesson_id, student_id)
+);
+
+CREATE TABLE students_attendances
+(
+    lesson_id   INT NOT NULL REFERENCES schedule (lesson_id)  ON UPDATE CASCADE ON DELETE CASCADE,
+    student_id  INT NOT NULL REFERENCES students (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT students_attendances_pk PRIMARY KEY (lesson_id, student_id)
 );

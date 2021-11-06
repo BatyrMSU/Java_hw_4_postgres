@@ -25,13 +25,6 @@ CREATE TABLE courses
     CONSTRAINT  courses_pk PRIMARY KEY (id)
 );
 
-CREATE TABLE courses_teachers
-(
-    course_id   INT NOT NULL REFERENCES courses (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    teacher_id  INT NOT NULL REFERENCES teachers (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT  courses_teachers_pk PRIMARY KEY (course_id, teacher_id)
-);
-
 CREATE TABLE enrolled_students
 (
     course_id   INT NOT NULL REFERENCES courses (id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -41,18 +34,19 @@ CREATE TABLE enrolled_students
 
 CREATE TABLE schedule
 (
+    lesson_id   INT NOT NULL,
+    lesson_name VARCHAR,
     course_id   INT NOT NULL REFERENCES courses (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    lesson      INT NOT NULL,
+    teacher_id  INT NOT NULL REFERENCES teachers (id) ON UPDATE CASCADE ON DELETE CASCADE,
     lesson_time TIMESTAMP,
-    CONSTRAINT  schedule_pk PRIMARY KEY (course_id, lesson)
+    CONSTRAINT  schedule_pk PRIMARY KEY (lesson_id)
 );
 
 CREATE TABLE lessons_reviews
 (
+    lesson_id   INT NOT NULL REFERENCES schedule (lesson_id) ON UPDATE CASCADE ON DELETE CASCADE,
     student_id  INT NOT NULL REFERENCES students (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    course_id   INT NOT NULL REFERENCES courses (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    lesson      INT NOT NULL,
     review      TEXT,
-    CONSTRAINT  lessons_reviews_pk PRIMARY KEY (student_id, course_id, lesson)
+    CONSTRAINT  lessons_reviews_pk PRIMARY KEY (lesson_id, student_id)
 );
 
